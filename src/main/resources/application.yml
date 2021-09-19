@@ -1,0 +1,11 @@
+micronaut:
+  application:
+    name: igdbTeleramBot
+
+org.telegram.bot:
+  username: igdb_inline_bot
+  token: ${BOT_TOKEN}
+
+twitch:
+  client.id: ${TWITCH_CLIENT_ID}
+  client.secret: ${TWITCH_CLIENT_SECRET}

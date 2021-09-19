@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: org.telegram.bot
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [ annotation-api, app-name, gradle, http-client, java, java-application, jax-rs, junit, netty-server, readme, shade, slf4j-simple, yaml ]
