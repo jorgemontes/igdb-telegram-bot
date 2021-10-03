@@ -2,6 +2,7 @@ package org.telegram.bot.controller;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import org.telegram.bot.IgdbWebhookBot;
 
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ public class BotController {
     @Inject
     private IgdbWebhookBot igdbWebhookBot;
 
-    @Get("/")
+    @Post("/")
     public String getInfo(){
         return "";
     }
