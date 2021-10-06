@@ -38,8 +38,8 @@ application {
     mainClass.set("org.telegram.bot.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("11")
-    targetCompatibility = JavaVersion.toVersion("11")
+    sourceCompatibility = JavaVersion.toVersion("8")
+    targetCompatibility = JavaVersion.toVersion("8")
 }
 
 

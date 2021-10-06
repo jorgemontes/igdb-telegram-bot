@@ -1,3 +1,3 @@
 FROM java:openjdk-8u111-alpine
-CMD java ${JAVA_OPTS} -jar pets-all.jar
-COPY build/libs/*-all.jar pets-all.jar
+CMD java ${JAVA_OPTS} -jar igdb-telegram-bot.jar
+COPY build/libs/*-all.jar igdb-telegram-bot.jar

@@ -19,8 +19,8 @@ public class IgdbClient {
     @PostConstruct
     public void initialize(){
 
-        var twitchAuthenticator = TwitchAuthenticator.INSTANCE;
-        var twitchToken = twitchAuthenticator.requestTwitchToken(clientId, clientSecret);
+        TwitchAuthenticator twitchAuthenticator = TwitchAuthenticator.INSTANCE;
+        TwitchToken twitchToken = twitchAuthenticator.requestTwitchToken(clientId, clientSecret);
         String access_token = twitchToken.getAccess_token();
         System.out.println("token: "+access_token);
 
