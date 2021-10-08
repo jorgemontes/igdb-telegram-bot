@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: igdb-telegram-bot
+  labels:
+    app: igdb-telegram-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: igdb-telegram-bot
+  template:
+    metadata:
+      labels:
+        app: igdb-telegram-bot
+    spec:
+      containers:
+        - name: igdb-telegram-bot
+          image: ghcr.io/jorgemontes/igdb-telegram-bot:master
+          ports:
+            - conatinerPort: 8080
+
