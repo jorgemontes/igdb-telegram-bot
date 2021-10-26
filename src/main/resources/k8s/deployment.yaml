@@ -17,6 +17,4 @@ spec:
       containers:
         - name: igdb-telegram-bot
           image: ghcr.io/jorgemontes/igdb-telegram-bot:master
-          ports:
-            - conatinerPort: 8080
 
