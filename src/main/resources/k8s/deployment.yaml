@@ -17,4 +17,6 @@ spec:
       containers:
         - name: igdb-telegram-bot
           image: ghcr.io/jorgemontes/igdb-telegram-bot:master
+      imagePullSecrets:
+        - name: docker-registry-ghcr
 
