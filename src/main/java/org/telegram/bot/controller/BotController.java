@@ -13,7 +13,7 @@ public class BotController {
     @Inject
     private IgdbWebhookBot igdbWebhookBot;
 
-    @Post("/")
+    @Post("/message/")
     public String getInfo(){
         return "";
     }

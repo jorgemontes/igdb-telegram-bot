@@ -27,6 +27,9 @@ public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEve
     @Value("${org.telegram.bot.token}")
     private String botToken;
 
+    @Value("${org.telegram.bot.callBackUrl}")
+    private String callBackUrl;
+
     @Override
     public String getBotUsername() {
         return username;
