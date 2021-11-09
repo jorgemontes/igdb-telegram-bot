@@ -14,7 +14,8 @@ public class BotController {
     private IgdbWebhookBot igdbWebhookBot;
 
     @Post("/message/")
-    public String getInfo(){
+    public String getInfo(String message){
+        System.out.println(message);
         return "";
     }
 }

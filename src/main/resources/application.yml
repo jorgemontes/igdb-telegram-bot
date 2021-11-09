@@ -5,7 +5,7 @@ micronaut:
 org.telegram.bot:
   username: igdb_inline_bot
   token: ${BOT_TOKEN}
-  call.back.url: ${CALL_BACK_URL}
+  callback.url: ${CALL_BACK_URL}
 
 twitch:
   client.id: ${TWITCH_CLIENT_ID}

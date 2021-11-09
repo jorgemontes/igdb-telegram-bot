@@ -27,8 +27,8 @@ public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEve
     @Value("${org.telegram.bot.token}")
     private String botToken;
 
-    @Value("${org.telegram.bot.callBackUrl}")
-    private String callBackUrl;
+    @Value("${org.telegram.bot.callback.url}")
+    private String callbackurl;
 
     @Override
     public String getBotUsername() {
@@ -45,7 +45,7 @@ public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEve
     public void register() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            SetWebhook setWebhook = SetWebhook.builder().url("127.0.0.1").build();
+            SetWebhook setWebhook = SetWebhook.builder().url(callbackurl+"/igdb/message").build();
             botsApi.registerBot(this,setWebhook);
         } catch (TelegramApiException e) {
             e.printStackTrace();
