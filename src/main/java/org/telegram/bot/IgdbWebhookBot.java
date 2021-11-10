@@ -45,7 +45,8 @@ public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEve
     public void register() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            SetWebhook setWebhook = SetWebhook.builder().url(callbackurl+"/igdb/message").build();
+            SetWebhook setWebhook = SetWebhook.builder().url(callbackurl+"igdb/message").build();
+            setWebhook.validate();
             botsApi.registerBot(this,setWebhook);
         } catch (TelegramApiException e) {
             e.printStackTrace();

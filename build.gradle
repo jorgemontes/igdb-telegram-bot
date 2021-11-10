@@ -29,7 +29,7 @@ dependencies {
     runtimeOnly("org.slf4j:slf4j-simple")
     testAnnotationProcessor("io.micronaut.jaxrs:micronaut-jaxrs-processor")
     implementation("io.micronaut:micronaut-validation")
-    implementation('org.telegram:telegrambots:5.3.0')
+    implementation('org.telegram:telegrambots:5.4.0')
     implementation('com.github.husnjak:IGDB-API-JVM:1.0.2')
 }
 
