@@ -2,25 +2,22 @@ package org.telegram.bot;
 
 import io.micronaut.context.annotation.Value;
 import io.micronaut.context.event.ApplicationEventListener;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import io.micronaut.discovery.event.ServiceReadyEvent;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import io.micronaut.discovery.event.ServiceReadyEvent;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
-import java.util.ArrayList;
 
 @Singleton
 public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEventListener<ServiceReadyEvent> {
 
+    public static final String IGDB_CALLBACK = "igdb/";
     @Value("${org.telegram.bot.username}")
     private String username;
 
@@ -45,7 +42,7 @@ public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEve
     public void register() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            SetWebhook setWebhook = new SetWebhook().builder().url(callbackurl + "igdb/message").build();
+            SetWebhook setWebhook = new SetWebhook().builder().url(callbackurl + IGDB_CALLBACK).build();
             setWebhook.validate();
             setWebhook(setWebhook);
             botsApi.registerBot(this, setWebhook);
@@ -61,6 +58,7 @@ public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEve
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+        System.out.println("Update received" + update);
         return null;
     }
 
