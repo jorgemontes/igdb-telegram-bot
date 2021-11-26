@@ -18,6 +18,7 @@ import javax.inject.Singleton;
 public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEventListener<ServiceReadyEvent> {
 
     public static final String IGDB_CALLBACK = "igdb/";
+
     @Value("${org.telegram.bot.username}")
     private String username;
 
