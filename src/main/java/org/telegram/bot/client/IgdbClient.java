@@ -25,9 +25,10 @@ public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
     @Value("${twitch.client.secret}")
     private String clientSecret;
 
+
     public void jsonQuery() throws RequestException, InvalidProtocolBufferException {
         var igdbWrapper = IGDBWrapper.INSTANCE;
-        byte[] bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "fields: *;");
+        byte[] bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "fields: name;");
         List<Game> gamesList = GameResult.parseFrom(bytes).getGamesList();
         gamesList.stream().forEach(System.out::println);
 
@@ -35,8 +36,10 @@ public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
 
     @PostConstruct
     public void initialize() {
+        TwitchAuthenticator twitchAuthenticator = TwitchAuthenticator.INSTANCE;
+        TwitchToken twitchToken = twitchAuthenticator.requestTwitchToken(clientId, clientSecret);
         IGDBWrapper igdbWrapper = IGDBWrapper.INSTANCE;
-        igdbWrapper.setCredentials(clientId, clientSecret);
+        igdbWrapper.setCredentials(clientId, twitchToken.getAccess_token());
     }
 
     @Override
