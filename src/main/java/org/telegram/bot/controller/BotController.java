@@ -9,6 +9,11 @@ import org.telegram.bot.client.IgdbClient;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import javax.inject.Inject;
@@ -23,14 +28,13 @@ public class BotController {
     private IgdbClient igdbClient;
 
     @Post("/callback/")
-    public Message getInfo(Message message) {
-        System.out.println(message);
+    public InlineQueryResult getInfo(Update update) {
+        InlineQueryResultArticle hola = InlineQueryResultArticle.builder().inputMessageContent(InputTextMessageContent.builder().messageText("q ase").build()).title("title").id(update.getUpdateId()+"").build();
         try {
             igdbClient.jsonQuery();
-            igdbWebhookBot.execute(SendMessage.builder().chatId(message.getChatId().toString()).text(message.getText()).build());
-        } catch (TelegramApiException | RequestException | InvalidProtocolBufferException e) {
+        } catch (RequestException | InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
-        return message;
+        return hola;
     }
 }
