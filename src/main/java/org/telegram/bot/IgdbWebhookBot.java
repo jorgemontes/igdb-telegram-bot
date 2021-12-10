@@ -13,11 +13,12 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
+import java.net.URI;
 
 @Singleton
 public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEventListener<ServiceReadyEvent> {
 
-    public static final String IGDB_CALLBACK = "igdb/";
+    public static final String IGDB_CALLBACK = "/igdb/";
 
     @Value("${org.telegram.bot.username}")
     private String username;
@@ -43,7 +44,8 @@ public class IgdbWebhookBot extends TelegramWebhookBot implements ApplicationEve
     public void register() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            SetWebhook setWebhook = new SetWebhook().builder().url(callbackurl + IGDB_CALLBACK).build();
+            URI uri = URI.create(callbackurl + IGDB_CALLBACK);
+            SetWebhook setWebhook = new SetWebhook().builder().url(uri.normalize().toString()).build();
             setWebhook.validate();
             setWebhook(setWebhook);
             botsApi.registerBot(this, setWebhook);

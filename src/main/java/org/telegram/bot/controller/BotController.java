@@ -1,22 +1,21 @@
 package org.telegram.bot.controller;
 
 import com.api.igdb.exceptions.RequestException;
+import com.google.common.collect.Lists;
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import org.telegram.bot.IgdbWebhookBot;
 import org.telegram.bot.client.IgdbClient;
-import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Controller("/igdb")
 public class BotController {
@@ -28,13 +27,18 @@ public class BotController {
     private IgdbClient igdbClient;
 
     @Post("/callback/")
-    public InlineQueryResult getInfo(Update update) {
+    public List<InlineQueryResult> getInfo(Update update) throws TelegramApiValidationException {
         InlineQueryResultArticle hola = InlineQueryResultArticle.builder().inputMessageContent(InputTextMessageContent.builder().messageText("q ase").build()).title("title").id(update.getUpdateId()+"").build();
         try {
             igdbClient.jsonQuery();
         } catch (RequestException | InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
-        return hola;
+        AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
+        answerInlineQuery.setInlineQueryId(update.getInlineQuery().getId());
+        answerInlineQuery.setResults(Lists.newArrayList(hola));
+        answerInlineQuery.validate();
+
+        return Lists.newArrayList(hola);
     }
 }
