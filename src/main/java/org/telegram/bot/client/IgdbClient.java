@@ -26,12 +26,10 @@ public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
     private String clientSecret;
 
 
-    public void jsonQuery() throws RequestException, InvalidProtocolBufferException {
+    public List<Game> jsonQuery(String query) throws RequestException, InvalidProtocolBufferException {
         var igdbWrapper = IGDBWrapper.INSTANCE;
-        byte[] bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "fields: name;");
-        List<Game> gamesList = GameResult.parseFrom(bytes).getGamesList();
-        gamesList.stream().forEach(System.out::println);
-
+        byte[] bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "search \""+query+"\"; fields: name;");
+        return GameResult.parseFrom(bytes).getGamesList();
     }
 
     @PostConstruct
