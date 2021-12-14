@@ -19,6 +19,7 @@ import proto.Game;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller("/igdb")
@@ -31,7 +32,7 @@ public class BotController {
     private IgdbClient igdbClient;
 
     @Post("/callback/")
-    public List<InlineQueryResult> getInfo(Update update) throws InvalidProtocolBufferException, RequestException, TelegramApiException {
+    public void getInfo(Update update) throws InvalidProtocolBufferException, RequestException, TelegramApiException {
         List<Game> games = igdbClient.jsonQuery(update.getInlineQuery().getQuery());
         List<InlineQueryResult> answers = mapToAnswerInlineQuery(games);
         AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
@@ -39,17 +40,18 @@ public class BotController {
         answerInlineQuery.setResults(answers);
         answerInlineQuery.validate();
         igdbWebhookBot.execute(answerInlineQuery);
-        return Lists.newArrayList();
     }
 
     private List<InlineQueryResult> mapToAnswerInlineQuery(List<Game> games) {
-        return games.stream().map(game -> {
-            InlineQueryResultArticle inlineQueryResultArticle = new InlineQueryResultArticle();
-            inlineQueryResultArticle.setId(game.getId() + "");
-            inlineQueryResultArticle.setTitle(game.getName());
-            inlineQueryResultArticle.setDescription(game.getSummary());
-            inlineQueryResultArticle.setInputMessageContent( new InputTextMessageContent("lol"));
-            return inlineQueryResultArticle;
-        }).collect(Collectors.toList());
+        return games.stream().map(game ->
+                InlineQueryResultArticle.builder().id(game.getId() + "").title(game.getName()).description(game.getSummary()).thumbUrl(getThumbUrl(game)).inputMessageContent(new InputTextMessageContent("lol")).build()
+        ).collect(Collectors.toList());
+    }
+
+    private String getThumbUrl(Game game) {
+        if(game.getArtworksCount() > 0)
+            return game.getArtworks(0).getUrl();
+        else
+            return "";
     }
 }
