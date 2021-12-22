@@ -21,6 +21,7 @@ micronaut {
 }
 
 dependencies {
+    implementation 'com.github.jknack:handlebars:4.3.0'
     annotationProcessor("io.micronaut.jaxrs:micronaut-jaxrs-processor")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
@@ -29,9 +30,10 @@ dependencies {
     runtimeOnly("org.slf4j:slf4j-simple")
     testAnnotationProcessor("io.micronaut.jaxrs:micronaut-jaxrs-processor")
     implementation("io.micronaut:micronaut-validation")
-    implementation('org.telegram:telegrambots:5.4.0')
+    implementation('org.telegram:telegrambots:5.4.0.1')
     implementation('com.github.husnjak:IGDB-API-JVM:1.0.2')
     implementation 'io.grpc:grpc-protobuf:1.42.1'
+
 }
 
 

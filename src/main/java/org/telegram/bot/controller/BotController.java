@@ -1,12 +1,15 @@
 package org.telegram.bot.controller;
 
 import com.api.igdb.exceptions.RequestException;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import org.telegram.bot.IgdbWebhookBot;
 import org.telegram.bot.client.IgdbClient;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
@@ -16,6 +19,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import proto.Game;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +55,18 @@ public class BotController {
     }
 
     private InputTextMessageContent getMessageContent(Game game) {
-        return InputTextMessageContent.builder().messageText("**lol**").parseMode("markdown").build();
+        Handlebars handlebars = new Handlebars();
+        Template template = null;
+        String markdownContent = null;
+        try {
+            template = handlebars.compile("template");
+            markdownContent = template.apply(game);
+            markdownContent = markdownContent.replaceAll("\\.","\\\\.").replaceAll("\\-","\\\\-");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(markdownContent);
+        return InputTextMessageContent.builder().messageText(markdownContent).parseMode(ParseMode.MARKDOWNV2).build();
     }
 
     private String getThumbUrl(Game game) {
