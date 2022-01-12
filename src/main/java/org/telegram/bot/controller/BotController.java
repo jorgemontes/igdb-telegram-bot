@@ -3,6 +3,7 @@ package org.telegram.bot.controller;
 import com.api.igdb.exceptions.RequestException;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.helper.StringHelpers;
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
@@ -56,12 +57,13 @@ public class BotController {
 
     private InputTextMessageContent getMessageContent(Game game) {
         Handlebars handlebars = new Handlebars();
+        handlebars.registerHelper("numberFormat", StringHelpers.numberFormat);
         Template template = null;
         String markdownContent = null;
         try {
             template = handlebars.compile("template");
             markdownContent = template.apply(game);
-            markdownContent = markdownContent.replaceAll("\\.","\\\\.").replaceAll("\\-","\\\\-");
+            markdownContent = markdownContent.replaceAll("\\.", "\\\\.").replaceAll("\\-", "\\\\-").replaceAll("#", "\\#");
         } catch (IOException e) {
             e.printStackTrace();
         }
