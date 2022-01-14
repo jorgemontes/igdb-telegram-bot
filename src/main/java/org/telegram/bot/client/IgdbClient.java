@@ -31,7 +31,7 @@ public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
         var igdbWrapper = IGDBWrapper.INSTANCE;
         byte[] bytes = new byte[0];
         try {
-            bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "search \"" + query + "\"; fields name,rating,summary,artworks,artworks.url; limit 10;");
+            bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "search \"" + query + "\"; fields name,rating,summary,url,artworks,artworks.url; limit 10;");
         } catch (RequestException e) {
             e.printStackTrace();
         }

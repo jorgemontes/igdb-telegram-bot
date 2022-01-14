@@ -63,7 +63,7 @@ public class BotController {
         try {
             template = handlebars.compile("template");
             markdownContent = template.apply(game);
-            markdownContent = markdownContent.replaceAll("\\.", "\\\\.").replaceAll("\\-", "\\\\-").replaceAll("#", "\\#");
+            markdownContent = markdownContent.replaceAll("\\.", "\\\\.").replaceAll("\\-", "\\\\-").replaceAll("\\#", "\\\\#").replaceAll("\\(","\\\\(").replaceAll("\\)","\\\\)");
         } catch (IOException e) {
             e.printStackTrace();
         }
