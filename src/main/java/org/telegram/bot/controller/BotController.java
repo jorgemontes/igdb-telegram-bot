@@ -55,7 +55,7 @@ public class BotController {
     private List<InlineQueryResult> mapToAnswerInlineQuery(List<Game> games) {
         String[] replacementParams = Arrays.stream(SEARCH_LIST)
                 .map(s -> "\\" + s)
-                .toList()
+                .collect(Collectors.toList())
                 .toArray(String[]::new);
         return games.stream().map(game ->
                 InlineQueryResultArticle.builder().id(game.getId() + "")
