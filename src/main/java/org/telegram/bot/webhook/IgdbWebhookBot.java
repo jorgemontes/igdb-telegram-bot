@@ -1,4 +1,4 @@
-package org.telegram.bot;
+package org.telegram.bot.webhook;
 
 import io.micronaut.context.annotation.Value;
 import io.micronaut.context.event.ApplicationEventListener;
