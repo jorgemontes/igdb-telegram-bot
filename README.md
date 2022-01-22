@@ -1,3 +1,14 @@
+# Telegam IGDB Inline Bot
+
+This is a bot developed in java as a help to query and get direct access to IGDB page. It was made just as a POC for
+Micronaut, Webhooks and GitHub packages deployed in a Kubernetes node
+
+## Libs
+
+- Handlebars
+- TelegramBots
+- IGDB-API-JVM
+
 ## Micronaut 2.5.4 Documentation
 
 - [User Guide](https://docs.micronaut.io/2.5.4/guide/index.html)
