@@ -12,7 +12,7 @@ on Micronaut, Webhooks and GitHub Packages deployed in a Kubernetes node
 ## How to Use
 
 A Telegram account is needed and you can call the Webhook by typing `igdb_inline_bot` in any chat.
-![./inline_query.png](Inline Query)
+![Query](./inline_query.png)
 
 After selecting the desired game it will be written in the conversation.
 ![Result](./result.png)
