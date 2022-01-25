@@ -1,7 +1,7 @@
 # Telegam IGDB Inline Bot
 
-This is a bot developed in java as a help to query and get direct access to IGDB page. It was made just as a POC for
-Micronaut, Webhooks and GitHub packages deployed in a Kubernetes node
+This is a bot developed in java as a help to query and get direct access to IGDB page. It was made just as a POC based
+on Micronaut, Webhooks and GitHub Packages deployed in a Kubernetes node
 
 ## Libs
 
@@ -9,16 +9,17 @@ Micronaut, Webhooks and GitHub packages deployed in a Kubernetes node
 - TelegramBots
 - IGDB-API-JVM
 
-## Micronaut 2.5.4 Documentation
+## How to Use
 
-- [User Guide](https://docs.micronaut.io/2.5.4/guide/index.html)
-- [API Reference](https://docs.micronaut.io/2.5.4/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/2.5.4/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
+A Telegram account is needed and you can call the Webhook by typing `igdb_inline_bot` in any chat.
+![./inline_query.png](Inline Query)
 
----
+After selecting the desired game it will be written in the conversation.
+![Result](./result.png)
 
-## Feature jax-rs documentation
+The output inludes the title of the game, the Rating as spoiler, a summary and TGDB link.
+
+## How to deploy
 
 - [Micronaut JAX-RS support documentation](https://micronaut-projects.github.io/micronaut-jaxrs/latest/guide/index.html)
 
