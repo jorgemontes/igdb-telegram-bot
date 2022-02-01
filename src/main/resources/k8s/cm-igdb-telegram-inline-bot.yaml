@@ -3,3 +3,8 @@ kind: ConfigMap
 metadata:
   creationTimestamp: null
   name: cm-igdb-telegram-inline-bot
+data:
+  BOT_TOKEN: <<telegram-bot-token>>
+  TWITCH_CLIENT_ID: <<twitch-api-client-id>>
+  TWITCH_CLIENT_SECRET: <<twitch-api-client-secret>>
+  CALL_BACK_URL: <<ngrok-callback-url>>
