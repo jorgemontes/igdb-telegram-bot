@@ -17,6 +17,8 @@ spec:
       containers:
         - name: igdb-telegram-bot
           image: ghcr.io/jorgemontes/igdb-telegram-bot:master
+          ports:
+            - containerPort: 8080
           env:
             - name: BOT_TOKEN
               valueFrom:
