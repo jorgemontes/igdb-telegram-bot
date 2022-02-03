@@ -17,10 +17,27 @@ spec:
       containers:
         - name: igdb-telegram-bot
           image: ghcr.io/jorgemontes/igdb-telegram-bot:master
-          volumeMounts:
-            - name: cm-igdb-telegram-inline-bot
-              mountPath: "/etc/cm"
-              readOnly: true
+          env:
+            - name: BOT_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  name: cm-igdb-telegram-inline-bot
+                  key: BOT_TOKEN
+            - name: TWITCH_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: cm-igdb-telegram-inline-bot
+                  key: TWITCH_CLIENT_ID
+            - name: TWITCH_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: cm-igdb-telegram-inline-bot
+                  key: TWITCH_CLIENT_SECRET
+            - name: CALL_BACK_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: cm-igdb-telegram-inline-bot
+                  key: CALL_BACK_URL
       imagePullSecrets:
         - name: docker-registry-ghcr
       volumes:
