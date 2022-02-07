@@ -21,22 +21,22 @@ The output inludes the title of the game, the Rating as spoiler, a summary and T
 
 ## How to deploy
 
-- The bot uses Ngrok to route API calls from Telegram. But theres no contraint to use a different vendor or routing technology. The bot is deployed locally using the port `8080`. so the first step is to run ngrok using this command:
-```shell
-./ngrok http 8080
-```
-This will provide the forwarding URL (in HTTPs) to provide to the bot
-
-- this bot has a docker image and can be deployed in a Kubernetes environment. In this case, a minukube instance should be running
+- The bot is deployed ina minikube cluster. For that start and get the ip to forward request with ngrok
 ````shell
 minukube start
 ````
+````shell
+minikube service list
+````
+- The bot uses Ngrok to route API calls from Telegram. But theres no contraint to use a different vendor or routing technology. The bot is deployed locally using the port `8080`. so the first step is to run ngrok using this command:
+```shell
+./ngrok http <<minikubeip>>:8080
+```
+- This will provide the forwarding URL (in HTTPs) to provide to the bot
 
-
-
-- [Micronaut JAX-RS support documentation](https://micronaut-projects.github.io/micronaut-jaxrs/latest/guide/index.html)
-
-## Feature http-client documentation
-
-- [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
-
+- this bot has a docker image and can be deployed in a Kubernetes environment. In this case, all artifacts can be created n order
+````shell
+kubectl create -f cm-igdb-telegram-inline-bot.yaml 
+kubectl create -f service.yaml 
+kubectl create -f deployment.yaml 
+````
