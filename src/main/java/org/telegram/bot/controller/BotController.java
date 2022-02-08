@@ -14,6 +14,7 @@ import org.telegram.bot.webhook.IgdbWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
@@ -27,6 +28,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller("/igdb")
@@ -41,23 +43,27 @@ public class BotController {
     private IgdbClient igdbClient;
 
     @Post("/callback/")
-    public void getInfo(Update update) throws InvalidProtocolBufferException, RequestException, TelegramApiException {
-        String scapedQuery = StringEscapeUtils.escapeJava(update.getInlineQuery().getQuery());
-        List<Game> games = igdbClient.jsonQuery(scapedQuery);
-        List<InlineQueryResult> answers = mapToAnswerInlineQuery(games);
-        AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
-        answerInlineQuery.setInlineQueryId(update.getInlineQuery().getId());
-        answerInlineQuery.setResults(answers);
-        answerInlineQuery.validate();
-        igdbWebhookBot.execute(answerInlineQuery);
+    public void getInfo(Update update) throws InvalidProtocolBufferException, TelegramApiException {
+        Optional<InlineQuery> inlineQuery = Optional.ofNullable(update.getInlineQuery());
+        if (inlineQuery.isPresent()) {
+            String scapedQuery = StringEscapeUtils.escapeJava(inlineQuery.get().getQuery());
+            List<Game> games = igdbClient.jsonQuery(scapedQuery);
+            List<InlineQueryResult> answers = mapToAnswerInlineQuery(games);
+            AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
+            answerInlineQuery.setInlineQueryId(update.getInlineQuery().getId());
+            answerInlineQuery.setResults(answers);
+            answerInlineQuery.validate();
+            igdbWebhookBot.executeAsync(answerInlineQuery);
+        }
     }
 
     private List<InlineQueryResult> mapToAnswerInlineQuery(List<Game> games) {
         String[] replacementParams = Arrays.stream(SEARCH_LIST)
+                .parallel()
                 .map(s -> "\\" + s)
                 .collect(Collectors.toList())
                 .toArray(String[]::new);
-        return games.stream().map(game ->
+        return games.stream().parallel().map(game ->
                 InlineQueryResultArticle.builder().id(game.getId() + "")
                         .title(getTitleWithYear(game))
                         .description(game.getSummary())

@@ -14,6 +14,7 @@ import proto.GameResult;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Singleton
@@ -26,7 +27,7 @@ public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
     private String clientSecret;
 
 
-    public List<Game> jsonQuery(String query) throws InvalidProtocolBufferException {
+    public List<Game> jsonQuery(@Size(min = 3) String query) throws InvalidProtocolBufferException {
 
         var igdbWrapper = IGDBWrapper.INSTANCE;
         byte[] bytes = new byte[0];
