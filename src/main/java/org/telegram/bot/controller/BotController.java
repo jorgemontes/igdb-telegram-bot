@@ -45,7 +45,7 @@ public class BotController {
     @Post("/callback/")
     public void getInfo(Update update) throws InvalidProtocolBufferException, TelegramApiException {
         Optional<InlineQuery> inlineQuery = Optional.ofNullable(update.getInlineQuery());
-        if (inlineQuery.isPresent()) {
+        if (inlineQuery.isPresent() && update.getInlineQuery().getQuery().length() > 3) {
             String scapedQuery = StringEscapeUtils.escapeJava(inlineQuery.get().getQuery());
             List<Game> games = igdbClient.jsonQuery(scapedQuery);
             List<InlineQueryResult> answers = mapToAnswerInlineQuery(games);

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: igdb-telegram-bot
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: igdb-telegram-bot
@@ -17,6 +17,7 @@ spec:
       containers:
         - name: igdb-telegram-bot
           image: ghcr.io/jorgemontes/igdb-telegram-bot:master
+          imagePullPolicy: "Always"
           ports:
             - containerPort: 8080
           env:
