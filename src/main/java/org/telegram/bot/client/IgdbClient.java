@@ -22,8 +22,6 @@ import java.util.logging.Logger;
 @Singleton
 public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
 
-    private static final Logger LOGGER = Logger.getLogger(IgdbClient.class.getName());
-
     @Value("${twitch.client.id}")
     private String clientId;
 
@@ -31,16 +29,10 @@ public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
     private String clientSecret;
 
 
-    public List<Game> jsonQuery(@Size(min = 3) String query) throws InvalidProtocolBufferException {
-
+    public List<Game> jsonQuery(@Size(min = 3) String query) throws InvalidProtocolBufferException, RequestException {
         var igdbWrapper = IGDBWrapper.INSTANCE;
         byte[] bytes = new byte[0];
-        try {
-            bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "search \"" + query + "\"; fields name,rating,summary,url,artworks,first_release_date,artworks.url; limit 10;");
-        } catch (RequestException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
-        }
+        bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "search \"" + query + "\"; fields name,rating,summary,url,artworks,first_release_date,artworks.url; limit 10;");
         return GameResult.parseFrom(bytes).getGamesList();
     }
 
