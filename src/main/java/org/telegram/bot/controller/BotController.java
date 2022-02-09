@@ -43,7 +43,7 @@ public class BotController {
     private IgdbClient igdbClient;
 
     @Post("/callback/")
-    public void getInfo(Update update) throws InvalidProtocolBufferException, TelegramApiException, RequestException {
+    public void getInfo(Update update) throws InvalidProtocolBufferException, TelegramApiException {
         Optional<InlineQuery> inlineQuery = Optional.ofNullable(update.getInlineQuery());
         if (inlineQuery.isPresent() && update.getInlineQuery().getQuery().length() > 3) {
             String scapedQuery = StringEscapeUtils.escapeJava(inlineQuery.get().getQuery());
