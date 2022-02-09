@@ -16,9 +16,13 @@ import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Singleton
 public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
+
+    private static final Logger LOGGER = Logger.getLogger(IgdbClient.class.getName());
 
     @Value("${twitch.client.id}")
     private String clientId;
@@ -34,6 +38,7 @@ public class IgdbClient implements ApplicationEventListener<ServiceReadyEvent> {
         try {
             bytes = igdbWrapper.apiProtoRequest(Endpoints.GAMES, "search \"" + query + "\"; fields name,rating,summary,url,artworks,first_release_date,artworks.url; limit 10;");
         } catch (RequestException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
         return GameResult.parseFrom(bytes).getGamesList();
